@@ -6,16 +6,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class WpTests {
+    String url = "https://www.wp.pl/";
+
     @Test
     public void testIfPageIsLoaded() {
         WebDriver driver = new ChromeDriver();
 
         try {
-            driver.get("https://www.wp.pl/");
+            driver.get(url);
 
             Thread.sleep(5000);
 
@@ -32,17 +35,19 @@ public class WpTests {
         WebDriver driver = new ChromeDriver();
 
         try {
-            driver.get("https://www.wp.pl/");
-
-            Thread.sleep(5000);
+            driver.get(url);
 
             WebElement advancedSettingsButton = driver.findElement(By.xpath("//button[text()='USTAWIENIA ZAAWANSOWANE']"));
             advancedSettingsButton.click();
 
-            Thread.sleep(2000);
-
             WebElement saveSettingsButton = driver.findElement(By.xpath("//button[text()='ZAPISZ']"));
             saveSettingsButton.click();
+
+            Thread.sleep(5000);
+
+            List<WebElement> modal = driver.findElements(By.className("ct0khm4"));
+
+            assertTrue(modal.isEmpty());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
