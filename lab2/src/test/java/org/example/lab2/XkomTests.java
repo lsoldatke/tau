@@ -20,7 +20,7 @@ public class XkomTests {
 
         try {
             driver.get(url);
-            assertEquals("Page titles are different", driver.getTitle(), "x-kom.pl - Sklep komputerowy");
+            assertEquals("Page titles are different", "x-kom.pl - Sklep komputerowy", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
@@ -67,6 +67,41 @@ public class XkomTests {
 //            assertFalse(results.isEmpty());
 
             Thread.sleep(3000);
+        } catch (Exception e) {
+            fail("An error occurred: " + e.getMessage());
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void testIfArticleCanBeOpened() {
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            driver.get(url);
+
+            WebElement settingsButton = driver.findElement(By.xpath("//button[text()='Ustawienia']"));
+            settingsButton.click();
+
+            WebElement saveButton = driver.findElement(By.xpath("//button[text()='Zapisz']"));
+            saveButton.click();
+
+            WebElement searchBar = driver.findElement(By.xpath("//input[@placeholder='Czego szukasz?']"));
+
+            searchBar.sendKeys("ps5");
+            searchBar.sendKeys(Keys.ENTER);
+
+            Thread.sleep(2000);
+
+            WebElement articles = driver.findElement(By.id("listing-container"));
+            WebElement firstArticle = articles.findElement(By.cssSelector(":first-child"));
+
+            firstArticle.click();
+
+            Thread.sleep(2000);
+
+            assertNotEquals("https://www.x-kom.pl/g-7/c/2572-konsole-playstation.html", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
