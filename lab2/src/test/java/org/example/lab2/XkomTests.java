@@ -106,7 +106,6 @@ public class XkomTests {
             saveButton.click();
 
             WebElement searchBar = driver.findElement(By.xpath("//input[@placeholder='Czego szukasz?']"));
-
             searchBar.sendKeys("ps5");
             searchBar.sendKeys(Keys.ENTER);
 
