@@ -77,11 +77,6 @@ public class XkomTests {
 
             List<WebElement> noResultsInfo = driver.findElements(By.xpath("//div[text()='Nie znaleźliśmy wyników dla']"));
 
-//            WebElement resultsDiv = driver.findElement(By.xpath("//div[@id='listing-container-wrapper']"));
-//            List<WebElement> results = resultsDiv.findElements(By.xpath("./*"));
-//
-//            assertFalse(results.isEmpty());
-
             Thread.sleep(5000);
 
             assertTrue(noResultsInfo.isEmpty());

@@ -153,13 +153,13 @@ public class MoreleTests {
 
             String articleUrl = "";
 
-            WebElement toCartButton = driver.findElement(By.className("add-to-cart__btn"));
-            toCartButton.click();
+            WebElement addToCartButton = driver.findElement(By.xpath("//*[contains(text(), 'Do koszyka')]"));
+            addToCartButton.click();
 
             Thread.sleep(2000);
 
-            WebElement noWarrantButton = driver.findElement(By.className("js_no-warrant-btn"));
-            toCartButton.click();
+            WebElement noWarrantButton = driver.findElement(By.xpath("//button[text()='Nie potrzebuję dodatkowej ochrony']"));
+            addToCartButton.click();
 
             WebElement addedProductUrl = driver.findElement(By.xpath("//div[@class='product-title']//a"));
             addedProductUrl.getAttribute("href");
