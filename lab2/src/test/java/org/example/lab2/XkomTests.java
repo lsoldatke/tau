@@ -1,6 +1,6 @@
 package org.example.lab2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class XkomTests {
     String url = "https://www.x-kom.pl/";
@@ -23,7 +23,7 @@ public class XkomTests {
 
             Thread.sleep(5000);
 
-            assertEquals("Page titles are different", "x-kom.pl - Sklep komputerowy", driver.getTitle());
+            assertEquals("x-kom.pl - Sklep komputerowy", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
@@ -144,7 +144,7 @@ public class XkomTests {
 
             Thread.sleep(5000);
 
-            assertEquals("Page titles are different", "Logowanie - Sklep komputerowy - x-kom.pl", driver.getTitle());
+            assertEquals("Logowanie - Sklep komputerowy - x-kom.pl", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
@@ -175,7 +175,7 @@ public class XkomTests {
 
             Thread.sleep(5000);
 
-            assertEquals("Page titles are different", "Rejestracja - Sklep komputerowy - x-kom.pl", driver.getTitle());
+            assertEquals("Rejestracja - Sklep komputerowy - x-kom.pl", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
@@ -201,7 +201,7 @@ public class XkomTests {
 
             Thread.sleep(5000);
 
-            assertEquals("Page titles are different", "Twój koszyk - Sklep komputerowy - x-kom.pl", driver.getTitle());
+            assertEquals("Twój koszyk - Sklep komputerowy - x-kom.pl", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {

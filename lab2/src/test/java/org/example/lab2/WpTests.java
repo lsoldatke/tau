@@ -1,6 +1,6 @@
 package org.example.lab2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WpTests {
     String url = "https://www.wp.pl/";
@@ -22,7 +22,7 @@ public class WpTests {
 
             Thread.sleep(5000);
 
-            assertEquals("Page titles are different", driver.getTitle(), "Wirtualna Polska - Wszystko co ważne - www.wp.pl");
+            assertEquals("Wirtualna Polska - Wszystko co ważne - www.wp.pl", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {

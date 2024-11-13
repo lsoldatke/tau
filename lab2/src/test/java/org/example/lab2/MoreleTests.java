@@ -1,6 +1,6 @@
 package org.example.lab2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MoreleTests {
     String url = "https://www.morele.net/";
@@ -23,7 +23,7 @@ public class MoreleTests {
 
             Thread.sleep(5000);
 
-            assertEquals("Page titles are different", "Morele - zakupy online to pestka", driver.getTitle());
+            assertEquals("Morele - zakupy online to pestka", driver.getTitle());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
