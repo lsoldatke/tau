@@ -1,12 +1,12 @@
 package org.example.lab2;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,15 +15,16 @@ public class XkomTests {
     String url = "https://www.x-kom.pl/";
 
     @Test
-    public void testIfPageIsLoaded() {
+    public void pageIsLoaded() {
         WebDriver driver = new ChromeDriver();
 
         try {
             driver.get(url);
 
-            Thread.sleep(5000);
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            String state = (String) jse.executeScript("return document.readyState");
 
-            assertEquals("x-kom.pl - Sklep komputerowy", driver.getTitle());
+            assertEquals("complete", state);
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
@@ -32,23 +33,33 @@ public class XkomTests {
     }
 
     @Test
-    public void testIfPrivacyPolicyPromptCanBeRejected() {
+    public void cookiesCanBeRejected() {
         WebDriver driver = new ChromeDriver();
 
         try {
             driver.get(url);
 
-            WebElement settingsButton = driver.findElement(By.xpath("//button[text()='Ustawienia']"));
+            WebElement settingsButton = driver.findElement(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__ManageButton-sc-22bd9b2d-8.kXIGaP.sftOk"));
             settingsButton.click();
 
-            WebElement saveButton = driver.findElement(By.xpath("//button[text()='Zapisz']"));
-            saveButton.click();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
-            Thread.sleep(5000);
+            WebElement necessaryCookiesConsent = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".parts__SwitchBackground-sc-151d6b5a-0.jehpSn")));
+            List<WebElement> optionalCookiesConsents = driver.findElements(By.cssSelector(".parts__SwitchBackground-sc-151d6b5a-0.cgXexQ"));
 
-            List<WebElement> modal = driver.findElements(By.className("ReactModal__Overlay"));
+            assertEquals("true", necessaryCookiesConsent.getAttribute("aria-pressed"));
+            for (WebElement optionalCookieConsent : optionalCookiesConsents) {
+                assertEquals("false", optionalCookieConsent.getAttribute("aria-pressed"));
+            }
 
-            assertTrue(modal.isEmpty());
+            WebElement saveSettingsButton = driver.findElement(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__ManageButton-sc-22bd9b2d-8.kXIGaP.sftOk"));
+            saveSettingsButton.click();
+
+            Thread.sleep(2000);
+
+            List<WebElement> overlay = driver.findElements(By.cssSelector(".ReactModal__Overlay.ReactModal__Overlay--after-open.overlay"));
+
+            assertTrue(overlay.isEmpty());
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
