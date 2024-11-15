@@ -68,6 +68,30 @@ public class XkomTests {
     }
 
     @Test
+    public void cookiesCanBeAccepted() {
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            driver.get(url);
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+
+            WebElement agreeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__AcceptButton-sc-22bd9b2d-9.kXIGaP.jbQKAv")));
+            agreeButton.click();
+
+            Thread.sleep(2000);
+
+            List<WebElement> overlay = driver.findElements(By.cssSelector(".ReactModal__Overlay.ReactModal__Overlay--after-open.overlay"));
+
+            assertTrue(overlay.isEmpty());
+        } catch (Exception e) {
+            fail("An error occurred: " + e.getMessage());
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
     public void testIfSearchWorks() {
         WebDriver driver = new ChromeDriver();
 
