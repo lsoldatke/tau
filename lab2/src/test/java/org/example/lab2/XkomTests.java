@@ -1,6 +1,10 @@
 package org.example.lab2;
 
+import org.example.lab2.enums.Browser;
+import org.example.lab2.utils.DriverDefiner;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,11 +16,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class XkomTests {
-    String url = "https://www.x-kom.pl/";
+    private final String url = "https://www.x-kom.pl/";
+    private WebDriver driver;
 
-    @Test
-    public void pageIsLoaded() {
-        WebDriver driver = new ChromeDriver();
+    @ParameterizedTest
+    @EnumSource(Browser.class)
+    public void pageIsLoaded(Browser browser) {
+        driver = DriverDefiner.getDriver(String.valueOf(browser));
 
         try {
             driver.get(url);
@@ -32,9 +38,10 @@ public class XkomTests {
         }
     }
 
-    @Test
-    public void cookiesCanBeRejected() {
-        WebDriver driver = new ChromeDriver();
+    @ParameterizedTest
+    @EnumSource(Browser.class)
+    public void cookiesCanBeRejected(Browser browser) {
+        driver = DriverDefiner.getDriver(String.valueOf(browser));
 
         try {
             driver.get(url);
