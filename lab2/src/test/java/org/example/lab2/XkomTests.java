@@ -145,7 +145,7 @@ public class XkomTests {
     }
 
     @Test
-    public void testIfSearchWorks() {
+    public void searchWorks() {
         WebDriver driver = new ChromeDriver();
 
         try {
@@ -176,7 +176,7 @@ public class XkomTests {
     }
 
     @Test
-    public void testIfArticleCanBeOpened() {
+    public void articleCanBeOpened() {
         WebDriver driver = new ChromeDriver();
 
         try {
@@ -210,7 +210,7 @@ public class XkomTests {
     }
 
     @Test
-    public void testIfLoginPageCanBeOpened() {
+    public void loginPageCanBeOpened() {
         WebDriver driver = new ChromeDriver();
 
         try {
@@ -241,7 +241,7 @@ public class XkomTests {
     }
 
     @Test
-    public void testIfRegisterPageCanBeOpened() {
+    public void registerPageCanBeOpened() {
         WebDriver driver = new ChromeDriver();
 
         try {
@@ -272,7 +272,7 @@ public class XkomTests {
     }
 
     @Test
-    public void testIfCartCanBeOpened() {
+    public void cartCanBeOpened() {
         WebDriver driver = new ChromeDriver();
 
         try {
@@ -298,7 +298,7 @@ public class XkomTests {
     }
 
     @Test
-    public void testLoginWithBlankData() {
+    public void cantLoginWithBlankData() {
         WebDriver driver = new ChromeDriver();
 
         try {
