@@ -1,7 +1,7 @@
 package org.example.lab2;
 
 import org.example.lab2.enums.Browser;
-import org.example.lab2.utils.DriverDefiner;
+import org.example.lab2.utils.Utils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+import static org.example.lab2.utils.Utils.waitForPageLoad;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class XkomTests {
@@ -22,7 +23,7 @@ public class XkomTests {
     @ParameterizedTest
     @EnumSource(Browser.class)
     public void pageIsLoaded(Browser browser) {
-        driver = DriverDefiner.getDriver(String.valueOf(browser));
+        driver = Utils.getDriver(String.valueOf(browser));
 
         try {
             driver.get(url);
@@ -41,13 +42,13 @@ public class XkomTests {
     @ParameterizedTest
     @EnumSource(Browser.class)
     public void cookiesCanBeRejected(Browser browser) {
-        driver = DriverDefiner.getDriver(String.valueOf(browser));
+        driver = Utils.getDriver(String.valueOf(browser));
 
         try {
             driver.get(url);
 
-            WebElement settingsButton = driver.findElement(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__ManageButton-sc-22bd9b2d-8.kXIGaP.sftOk"));
-            settingsButton.click();
+            WebElement cookieSettingsButton = driver.findElement(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__ManageButton-sc-22bd9b2d-8.kXIGaP.sftOk"));
+            cookieSettingsButton.click();
 
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
@@ -59,8 +60,8 @@ public class XkomTests {
                 assertEquals("false", optionalCookieConsent.getAttribute("aria-pressed"));
             }
 
-            WebElement saveSettingsButton = driver.findElement(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__ManageButton-sc-22bd9b2d-8.kXIGaP.sftOk"));
-            saveSettingsButton.click();
+            WebElement saveCookieSettingsButton = driver.findElement(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__ManageButton-sc-22bd9b2d-8.kXIGaP.sftOk"));
+            saveCookieSettingsButton.click();
 
             Thread.sleep(2000);
 
@@ -74,23 +75,68 @@ public class XkomTests {
         }
     }
 
-    @Test
-    public void cookiesCanBeAccepted() {
-        WebDriver driver = new ChromeDriver();
+    @ParameterizedTest
+    @EnumSource(Browser.class)
+    public void cookiesCanBeAccepted(Browser browser) {
+        driver = Utils.getDriver(String.valueOf(browser));
 
         try {
             driver.get(url);
 
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
-            WebElement agreeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__AcceptButton-sc-22bd9b2d-9.kXIGaP.jbQKAv")));
-            agreeButton.click();
+            WebElement cookieAgreeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__AcceptButton-sc-22bd9b2d-9.kXIGaP.jbQKAv")));
+            cookieAgreeButton.click();
 
             Thread.sleep(2000);
 
             List<WebElement> overlay = driver.findElements(By.cssSelector(".ReactModal__Overlay.ReactModal__Overlay--after-open.overlay"));
 
             assertTrue(overlay.isEmpty());
+        } catch (Exception e) {
+            fail("An error occurred: " + e.getMessage());
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @ParameterizedTest
+    @EnumSource(Browser.class)
+    public void theMostImportantElementsAreVisible(Browser browser) {
+        driver = Utils.getDriver(String.valueOf(browser));
+
+        try {
+            String[] elementsClasses = {
+                    "parts__Img-sc-1cf5826f-1 iocZSK", // logo
+                    "parts__Input-sc-60750d44-0 iFdVUS", // search bar
+                    "sc-bgqQcB bZGFRv parts__StyledIcon-sc-b4eaed6d-3 ataiD", // log in
+                    "sc-bgqQcB bZGFRv parts__StyledIcon-sc-b4eaed6d-3 ataiD", // cart
+                    "parts__Container-sc-51f562cf-0 gTwHVo parts__Container-sc-685c9fb1-0 ExKSm", // categories
+                    "parts__SlideImage-sc-50f2d72c-0 dALlGL", // ads
+                    "parts__Container-sc-c2c41d57-0 hiEeoV parts__HomeSectionLayout-sc-e662adc3-0 ccWwEE", // recommended
+                    "parts__Container-sc-c2c41d57-0 jDbNbb parts__HomeSectionLayout-sc-8e130060-0 gfMbat", // bestsellers
+                    "parts__Container-sc-51f562cf-0 gTwHVo parts__FooterContainer-sc-8fd7aa6e-1 fayxpE" // footer
+            };
+
+            for (int i = 0; i < elementsClasses.length; i++) {
+                elementsClasses[i] = ".".concat(elementsClasses[i].replace(" ", "."));
+            }
+
+            driver.get(url);
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+            WebElement cookieAgreeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__AcceptButton-sc-22bd9b2d-9.kXIGaP.jbQKAv")));
+            cookieAgreeButton.click();
+
+            Thread.sleep(2000);
+            waitForPageLoad(driver);
+
+            for (String elementsClass : elementsClasses) {
+                WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(elementsClass)));
+
+                assertTrue(element.isDisplayed());
+            }
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
