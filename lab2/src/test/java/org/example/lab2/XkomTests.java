@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.example.lab2.utils.Utils.waitForPageLoad;
@@ -144,30 +145,39 @@ public class XkomTests {
         }
     }
 
-    @Test
-    public void searchWorks() {
-        WebDriver driver = new ChromeDriver();
+    @ParameterizedTest
+    @EnumSource(Browser.class)
+    public void searchWorks(Browser browser) {
+        driver = Utils.getDriver(String.valueOf(browser));
 
         try {
             driver.get(url);
 
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+
+            WebElement cookieAgreeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__AcceptButton-sc-22bd9b2d-9.kXIGaP.jbQKAv")));
+            cookieAgreeButton.click();
+
             Thread.sleep(2000);
 
-            WebElement settingsButton = driver.findElement(By.xpath("//button[text()='Ustawienia']"));
-            settingsButton.click();
-
-            WebElement saveButton = driver.findElement(By.xpath("//button[text()='Zapisz']"));
-            saveButton.click();
-
-            WebElement searchBar = driver.findElement(By.xpath("//input[@placeholder='Czego szukasz?']"));
+            WebElement searchBar = driver.findElement(By.cssSelector(".parts__Input-sc-60750d44-0.iFdVUS"));
             searchBar.sendKeys("ps5");
             searchBar.sendKeys(Keys.ENTER);
 
-            List<WebElement> noResultsInfo = driver.findElements(By.xpath("//div[text()='Nie znaleźliśmy wyników dla']"));
-
             Thread.sleep(5000);
 
-            assertTrue(noResultsInfo.isEmpty());
+            List<WebElement> resultsTitles = driver.findElements(By.cssSelector(".parts__Title-sc-1d28d-0.fKUIM.parts__Title-sc-6e280ffa-9.hqUuGB"));
+            List<String> resultsTitlesStrings = new ArrayList<>();
+
+            for (WebElement resultsTitle : resultsTitles) {
+                resultsTitlesStrings.add(resultsTitle.getText());
+            }
+
+            for (String resultsTitlesString : resultsTitlesStrings) {
+                assertTrue(resultsTitlesString.toLowerCase().replace(" ", "").contains("ps5")
+                        || resultsTitlesString.toLowerCase().replace(" ", "").contains("playstation5")
+                );
+            }
         } catch (Exception e) {
             fail("An error occurred: " + e.getMessage());
         } finally {
