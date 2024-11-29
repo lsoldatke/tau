@@ -9,7 +9,7 @@
    2. Sprawdzenie czy komunikat o polityce prywatności może zostać zaakceptowany
 3. Sprawdzenie czy najważniejsze elementy strony są widoczne
 4. Sprawdzenie czy działa wyszukiwanie
-5. Sprawdzenie czy wyświetla się odpowiednia informacja w przypadku próby wyszukania niewłaściwe frazy
+5. Sprawdzenie czy wyświetla się odpowiednia informacja w przypadku próby wyszukania niewłaściwej frazy
 6. Sprawdzenie czy dany artykuł może zostać otwarty
 7. Sprawdzenie czy działa strona logowania użytkownika
 8. Sprawdzenie czy działa strona rejestracji użytkownika

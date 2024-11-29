@@ -29,6 +29,8 @@ public class XkomTests {
         try {
             driver.get(url);
 
+            Thread.sleep(3000);
+
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             String state = (String) jse.executeScript("return document.readyState");
 
