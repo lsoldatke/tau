@@ -185,6 +185,39 @@ public class XkomTests {
         }
     }
 
+    @ParameterizedTest
+    @EnumSource(Browser.class)
+    public void noResultsForIncorrectPhrase(Browser browser) {
+        driver = Utils.getDriver(String.valueOf(browser));
+
+        try {
+            driver.get(url);
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+
+            WebElement cookieAgreeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".parts__ButtonWrapper-sc-6adb784e-0.parts__AcceptButton-sc-22bd9b2d-9.kXIGaP.jbQKAv")));
+            cookieAgreeButton.click();
+
+            Thread.sleep(2000);
+
+            WebElement searchBar = driver.findElement(By.cssSelector(".parts__Input-sc-60750d44-0.iFdVUS"));
+            searchBar.sendKeys("efbefusgbfsufssgbef");
+            searchBar.sendKeys(Keys.ENTER);
+
+            Thread.sleep(2000);
+
+            WebElement noItemsInfo = driver.findElement(By.cssSelector(".parts__Title-sc-5f6c3fdb-1.gGxjMd"));
+            String noItemsInfoText = noItemsInfo.getText();
+
+            assertTrue(noItemsInfo.isDisplayed());
+            assertEquals("Nie znaleźliśmy wyników dla „efbefusgbfsufssgbef”", noItemsInfoText);
+        } catch (Exception e) {
+            fail("An error occurred: " + e.getMessage());
+        } finally {
+            driver.quit();
+        }
+    }
+
     @Test
     public void articleCanBeOpened() {
         WebDriver driver = new ChromeDriver();
