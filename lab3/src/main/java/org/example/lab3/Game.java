@@ -1,76 +1,54 @@
 package org.example.lab3;
 
-import java.util.Random;
+import java.util.Scanner;
 
 public class Game {
-    private static final int WIDTH = 5;
-    private static final int HEIGHT = 5;
+    private static final int MAP_WIDTH = 5;
+    private static final int MAP_HEIGHT = 5;
+    private boolean shouldRun = true;
+    private final Map map = new Map(MAP_WIDTH, MAP_HEIGHT);
+    private final Player player = new Player(map.getStartPos(), this);
 
-    private static int[] drawPositionOnEdge() {
-        Random rand = new Random();
-        int x = 0, y = 0;
-        int edge = rand.nextInt(4); // 0 - top, 1 - bottom, 2 - left, 3 - right
+    public void run() {
+        Scanner scanner = new Scanner(System.in);
 
-        switch (edge) {
-            case 0:
-                y = rand.nextInt(WIDTH);
-                break;
-            case 1:
-                x = HEIGHT - 1;
-                y = rand.nextInt(WIDTH);
-                break;
-            case 2:
-                x = rand.nextInt(HEIGHT);
-                break;
-            case 3:
-                x = rand.nextInt(HEIGHT);
-                y = WIDTH - 1;
-                break;
-        }
+        System.out.println("Controls: W - up, A - left, S - down, D - right, Q - exit\n");
 
-        return new int[]{x, y};
-    }
+        while (shouldRun) {
+            map.display();
+            System.out.println("Player coords: " + player.getX() + ", " + player.getY() + "\n");
 
-    private static int[] drawPosition() {
-        Random rand = new Random();
-        int x = rand.nextInt(HEIGHT);
-        int y = rand.nextInt(WIDTH);
+            System.out.print("Move: ");
+            char move = scanner.nextLine().toUpperCase().charAt(0);
 
-        return new int[]{x, y};
-    }
-
-    public static void main(String[] args) {
-        char[][] map = new char[WIDTH][HEIGHT];
-
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                map[i][j] = '.';
+            switch (move) {
+                case 'W':
+                    player.moveUp(map);
+                    break;
+                case 'A':
+                    player.moveLeft(map);
+                    break;
+                case 'S':
+                    player.moveDown(map);
+                    break;
+                case 'D':
+                    player.moveRight(map);
+                    break;
+                case 'Q':
+                    stop();
+                    break;
+                default:
+                    System.out.println("Invalid move");
             }
         }
+    }
 
-        int[] start = drawPositionOnEdge();
-        int[] finish;
+    private void stop() {
+        shouldRun = false;
+    }
 
-        do {
-            finish = drawPositionOnEdge();
-        } while (start[0] == finish[0] && start[1] == finish[1]);
-
-        map[start[0]][start[1]] = 'S';
-        map[finish[0]][finish[1]] = 'F';
-
-        int[] player;
-
-        do {
-            player = drawPosition();
-        } while ((player[0] == start[0] && player[1] == start[1]) || (player[0] == finish[0] && player[1] == finish[1]));
-
-        map[player[0]][player[1]] = 'P';
-
-        for (char[] row : map) {
-            for (char field : row) {
-                System.out.print(field);
-            }
-            System.out.println();
-        }
+    public void win() {
+        stop();
+        System.out.println("You win!");
     }
 }
