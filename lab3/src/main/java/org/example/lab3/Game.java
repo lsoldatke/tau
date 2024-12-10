@@ -9,6 +9,14 @@ public class Game {
     private final Map map = new Map(MAP_WIDTH, MAP_HEIGHT);
     private final Player player = new Player(map.getStartPos(), this);
 
+    public Map getMap() {
+        return map;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
     public void run() {
         Scanner scanner = new Scanner(System.in);
 
