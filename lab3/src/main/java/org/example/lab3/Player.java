@@ -4,9 +4,9 @@ public class Player {
     private int x, y;
     private final Game game;
 
-    public Player(int[] position, Game game) {
-        this.x = position[0];
-        this.y = position[1];
+    public Player(int[] initialPosition, Game game) {
+        this.x = initialPosition[0];
+        this.y = initialPosition[1];
         this.game = game;
     }
 
@@ -20,7 +20,7 @@ public class Player {
 
     public void moveUp(Map map) {
         if (x > 0) {
-            map.setEmpty(x, y);
+            map.leaveTheField(x, y);
             checkFinish(x - 1, y, map);
 
             if (map.isOnMap(x - 1, y)) {
@@ -32,7 +32,7 @@ public class Player {
 
     public void moveDown(Map map) {
         if (x < map.getHeight() - 1) {
-            map.setEmpty(x, y);
+            map.leaveTheField(x, y);
             checkFinish(x + 1, y, map);
 
             if (map.isOnMap(x + 1, y)) {
@@ -44,7 +44,7 @@ public class Player {
 
     public void moveLeft(Map map) {
         if (y > 0) {
-            map.setEmpty(x, y);
+            map.leaveTheField(x, y);
             checkFinish(x, y - 1, map);
 
             if (map.isOnMap(x, y - 1)) {
@@ -56,7 +56,7 @@ public class Player {
 
     public void moveRight(Map map) {
         if (y < map.getHeight() - 1) {
-            map.setEmpty(x, y);
+            map.leaveTheField(x, y);
             checkFinish(x, y + 1, map);
 
             if (map.isOnMap(x, y + 1)) {

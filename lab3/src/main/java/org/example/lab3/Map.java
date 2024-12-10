@@ -15,7 +15,7 @@ public class Map {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                fields[i][j] = ".";
+                fields[i][j] = Game.EMPTY;
             }
         }
 
@@ -25,8 +25,8 @@ public class Map {
             this.finishPos = drawPositionOnEdge();
         } while (this.startPos[0] == this.finishPos[0] && this.startPos[1] == this.finishPos[1]);
 
-        fields[this.startPos[0]][this.startPos[1]] = "SP";
-        fields[this.finishPos[0]][this.finishPos[1]] = "F";
+        fields[this.startPos[0]][this.startPos[1]] = Game.START + Game.PLAYER;
+        fields[this.finishPos[0]][this.finishPos[1]] = Game.FINISH;
     }
 
     public int getHeight() {
@@ -45,29 +45,21 @@ public class Map {
         fields[x][y] = field;
     }
 
-    public void setEmpty(int x, int y) {
+    public void leaveTheField(int x, int y) {
         switch (getField(x, y)) {
-            case "SP", "S":
-                setField(x, y, "S");
+            case Game.START + Game.PLAYER, Game.START:
+                setField(x, y, Game.START);
                 break;
-            case "F":
-                setField(x, y, "F");
+            case Game.FINISH:
+                setField(x, y, Game.FINISH);
                 break;
             default:
-                setField(x, y, ".");
+                setField(x, y, Game.EMPTY);
         }
     }
 
     public void setPlayer(int x, int y) {
-        setField(x, y, "P");
-    }
-
-    public int[] drawPosition() {
-        Random rand = new Random();
-        int x = rand.nextInt(height);
-        int y = rand.nextInt(width);
-
-        return new int[]{x, y};
+        setField(x, y, Game.PLAYER);
     }
 
     public int[] drawPositionOnEdge() {
