@@ -13,7 +13,8 @@ public class PlayerTests {
         
         int oldPlayerX = player.getX();
         int oldPlayerY = player.getY();
-        
+
+        System.out.println("Before");
         map.display();
         System.out.println();
         
@@ -21,12 +22,18 @@ public class PlayerTests {
         
         int newPlayerX = player.getX();
         int newPlayerY = player.getY();
-        
+
+        System.out.println("After");
         map.display();
         System.out.println();
         
-        assertEquals(oldPlayerX - 1, newPlayerX);
-        assertEquals(oldPlayerY, newPlayerY);
+        if (map.isOnMap(oldPlayerX - 1, oldPlayerY)) {
+            assertEquals(oldPlayerX - 1, newPlayerX);
+            assertEquals(oldPlayerY, newPlayerY);
+        } else {
+            assertEquals(oldPlayerX, newPlayerX);
+            assertEquals(oldPlayerY, newPlayerY);
+        }
     }
 
     @Test
@@ -38,6 +45,7 @@ public class PlayerTests {
         int oldPlayerX = player.getX();
         int oldPlayerY = player.getY();
 
+        System.out.println("Before");
         map.display();
         System.out.println();
 
@@ -46,11 +54,17 @@ public class PlayerTests {
         int newPlayerX = player.getX();
         int newPlayerY = player.getY();
 
+        System.out.println("After");
         map.display();
         System.out.println();
-        
-        assertEquals(oldPlayerX + 1, newPlayerX);
-        assertEquals(oldPlayerY, newPlayerY);
+
+        if (map.isOnMap(oldPlayerX + 1, oldPlayerY)) {
+            assertEquals(oldPlayerX + 1, newPlayerX);
+            assertEquals(oldPlayerY, newPlayerY);
+        } else {
+            assertEquals(oldPlayerX, newPlayerX);
+            assertEquals(oldPlayerY, newPlayerY);
+        }
     }
 
     @Test
@@ -62,6 +76,7 @@ public class PlayerTests {
         int oldPlayerX = player.getX();
         int oldPlayerY = player.getY();
 
+        System.out.println("Before");
         map.display();
         System.out.println();
 
@@ -70,11 +85,17 @@ public class PlayerTests {
         int newPlayerX = player.getX();
         int newPlayerY = player.getY();
 
+        System.out.println("After");
         map.display();
         System.out.println();
 
-        assertEquals(oldPlayerX, newPlayerX);
-        assertEquals(oldPlayerY - 1, newPlayerY);
+        if (map.isOnMap(oldPlayerX, oldPlayerY - 1)) {
+            assertEquals(oldPlayerX, newPlayerX);
+            assertEquals(oldPlayerY - 1, newPlayerY);
+        } else {
+            assertEquals(oldPlayerX, newPlayerX);
+            assertEquals(oldPlayerY, newPlayerY);
+        }
     }
 
     @Test
@@ -86,6 +107,7 @@ public class PlayerTests {
         int oldPlayerX = player.getX();
         int oldPlayerY = player.getY();
 
+        System.out.println("Before");
         map.display();
         System.out.println();
 
@@ -94,10 +116,16 @@ public class PlayerTests {
         int newPlayerX = player.getX();
         int newPlayerY = player.getY();
 
+        System.out.println("After");
         map.display();
         System.out.println();
 
-        assertEquals(oldPlayerX, newPlayerX);
-        assertEquals(oldPlayerY + 1, newPlayerY);
+        if (map.isOnMap(oldPlayerX, oldPlayerY + 1)) {
+            assertEquals(oldPlayerX, newPlayerX);
+            assertEquals(oldPlayerY + 1, newPlayerY);
+        } else {
+            assertEquals(oldPlayerX, newPlayerX);
+            assertEquals(oldPlayerY, newPlayerY);
+        }
     }
 }

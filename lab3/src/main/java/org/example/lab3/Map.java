@@ -94,6 +94,10 @@ public class Map {
 
         return new int[]{x, y};
     }
+    
+    public boolean isOnMap(int x, int y) {
+        return x >= 0 && x <= height - 1 && y >= 0 && y <= width - 1;
+    }
 
     public void display() {
         for (String[] row : fields) {

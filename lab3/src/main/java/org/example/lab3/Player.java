@@ -22,8 +22,11 @@ public class Player {
         if (x > 0) {
             map.setEmpty(x, y);
             checkFinish(x - 1, y, map);
-            map.setPlayer(x - 1, y);
-            x--;
+
+            if (map.isOnMap(x - 1, y)) {
+                map.setPlayer(x - 1, y);
+                x--;
+            }
         }
     }
 
@@ -31,8 +34,11 @@ public class Player {
         if (x < map.getHeight() - 1) {
             map.setEmpty(x, y);
             checkFinish(x + 1, y, map);
-            map.setPlayer(x + 1, y);
-            x++;
+
+            if (map.isOnMap(x + 1, y)) {
+                map.setPlayer(x + 1, y);
+                x++;
+            }
         }
     }
 
@@ -40,8 +46,11 @@ public class Player {
         if (y > 0) {
             map.setEmpty(x, y);
             checkFinish(x, y - 1, map);
-            map.setPlayer(x, y - 1);
-            y--;
+
+            if (map.isOnMap(x, y - 1)) {
+                map.setPlayer(x, y - 1);
+                y--;
+            }
         }
     }
 
@@ -49,8 +58,11 @@ public class Player {
         if (y < map.getHeight() - 1) {
             map.setEmpty(x, y);
             checkFinish(x, y + 1, map);
-            map.setPlayer(x, y + 1);
-            y++;
+
+            if (map.isOnMap(x, y + 1)) {
+                map.setPlayer(x, y + 1);
+                y++;
+            }
         }
     }
 
