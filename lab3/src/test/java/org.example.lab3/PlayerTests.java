@@ -1,128 +1,60 @@
 package org.example.lab3;
 
-import org.junit.jupiter.api.Test;
+import org.example.lab3.enums.Direction;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayerTests {
-    @Test
-    public void testMoveUp() {
+    @ParameterizedTest
+    @EnumSource(Direction.class)
+    public void testMove(Direction direction) {
         Game game = new Game();
         Map map = game.getMap();
         Player player = game.getPlayer();
-        
+
         int oldPlayerX = player.getX();
         int oldPlayerY = player.getY();
 
-        System.out.println("Before");
+        System.out.println("Before:");
         map.display();
         System.out.println();
-        
-        player.moveUp(map);
-        
+
+        player.move(Direction.UP, map);
+
         int newPlayerX = player.getX();
         int newPlayerY = player.getY();
 
-        System.out.println("After");
+        System.out.println("After:");
         map.display();
         System.out.println();
-        
-        if (map.isOnMap(oldPlayerX - 1, oldPlayerY)) {
-            assertEquals(oldPlayerX - 1, newPlayerX);
-            assertEquals(oldPlayerY, newPlayerY);
-        } else {
-            assertEquals(oldPlayerX, newPlayerX);
-            assertEquals(oldPlayerY, newPlayerY);
+
+        int moveToX, moveToY;
+
+        switch (direction) {
+            case UP -> {
+                moveToX = oldPlayerX - 1;
+                moveToY = oldPlayerY;
+            }
+            case DOWN -> {
+                moveToX = oldPlayerX + 1;
+                moveToY = oldPlayerY;
+            }
+            case LEFT -> {
+                moveToX = oldPlayerX;
+                moveToY = oldPlayerY - 1;
+            }
+            case RIGHT -> {
+                moveToX = oldPlayerX;
+                moveToY = oldPlayerY + 1;
+            }
+            default -> throw new IllegalStateException("Invalid direction");
         }
-    }
 
-    @Test
-    public void testMoveDown() {
-        Game game = new Game();
-        Map map = game.getMap();
-        Player player = game.getPlayer();
-
-        int oldPlayerX = player.getX();
-        int oldPlayerY = player.getY();
-
-        System.out.println("Before");
-        map.display();
-        System.out.println();
-
-        player.moveDown(map);
-
-        int newPlayerX = player.getX();
-        int newPlayerY = player.getY();
-
-        System.out.println("After");
-        map.display();
-        System.out.println();
-
-        if (map.isOnMap(oldPlayerX + 1, oldPlayerY)) {
-            assertEquals(oldPlayerX + 1, newPlayerX);
-            assertEquals(oldPlayerY, newPlayerY);
-        } else {
-            assertEquals(oldPlayerX, newPlayerX);
-            assertEquals(oldPlayerY, newPlayerY);
-        }
-    }
-
-    @Test
-    public void testMoveLeft() {
-        Game game = new Game();
-        Map map = game.getMap();
-        Player player = game.getPlayer();
-
-        int oldPlayerX = player.getX();
-        int oldPlayerY = player.getY();
-
-        System.out.println("Before");
-        map.display();
-        System.out.println();
-
-        player.moveLeft(map);
-
-        int newPlayerX = player.getX();
-        int newPlayerY = player.getY();
-
-        System.out.println("After");
-        map.display();
-        System.out.println();
-
-        if (map.isOnMap(oldPlayerX, oldPlayerY - 1)) {
-            assertEquals(oldPlayerX, newPlayerX);
-            assertEquals(oldPlayerY - 1, newPlayerY);
-        } else {
-            assertEquals(oldPlayerX, newPlayerX);
-            assertEquals(oldPlayerY, newPlayerY);
-        }
-    }
-
-    @Test
-    public void testMoveRight() {
-        Game game = new Game();
-        Map map = game.getMap();
-        Player player = game.getPlayer();
-
-        int oldPlayerX = player.getX();
-        int oldPlayerY = player.getY();
-
-        System.out.println("Before");
-        map.display();
-        System.out.println();
-
-        player.moveRight(map);
-
-        int newPlayerX = player.getX();
-        int newPlayerY = player.getY();
-
-        System.out.println("After");
-        map.display();
-        System.out.println();
-
-        if (map.isOnMap(oldPlayerX, oldPlayerY + 1)) {
-            assertEquals(oldPlayerX, newPlayerX);
-            assertEquals(oldPlayerY + 1, newPlayerY);
+        if (map.isOnMap(moveToX, moveToY)) {
+            assertEquals(moveToX, newPlayerX);
+            assertEquals(moveToY, newPlayerY);
         } else {
             assertEquals(oldPlayerX, newPlayerX);
             assertEquals(oldPlayerY, newPlayerY);

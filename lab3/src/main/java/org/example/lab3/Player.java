@@ -1,5 +1,7 @@
 package org.example.lab3;
 
+import org.example.lab3.enums.Direction;
+
 public class Player {
     private int x, y;
     private final Game game;
@@ -18,57 +20,40 @@ public class Player {
         return y;
     }
 
-    public void moveUp(Map map) {
-        if (x > 0) {
-            map.leaveTheField(x, y);
-            checkFinish(x - 1, y, map);
+    public void move(Direction direction, Map map) {
+        int moveToX, moveToY;
 
-            if (map.isOnMap(x - 1, y)) {
-                map.setPlayer(x - 1, y);
-                x--;
+        switch (direction) {
+            case UP -> {
+                moveToX = x - 1;
+                moveToY = y;
             }
-        }
-    }
-
-    public void moveDown(Map map) {
-        if (x < map.getHeight() - 1) {
-            map.leaveTheField(x, y);
-            checkFinish(x + 1, y, map);
-
-            if (map.isOnMap(x + 1, y)) {
-                map.setPlayer(x + 1, y);
-                x++;
+            case DOWN -> {
+                moveToX = x + 1;
+                moveToY = y;
             }
-        }
-    }
-
-    public void moveLeft(Map map) {
-        if (y > 0) {
-            map.leaveTheField(x, y);
-            checkFinish(x, y - 1, map);
-
-            if (map.isOnMap(x, y - 1)) {
-                map.setPlayer(x, y - 1);
-                y--;
+            case LEFT -> {
+                moveToX = x;
+                moveToY = y - 1;
             }
-        }
-    }
-
-    public void moveRight(Map map) {
-        if (y < map.getHeight() - 1) {
-            map.leaveTheField(x, y);
-            checkFinish(x, y + 1, map);
-
-            if (map.isOnMap(x, y + 1)) {
-                map.setPlayer(x, y + 1);
-                y++;
+            case RIGHT -> {
+                moveToX = x;
+                moveToY = y + 1;
             }
+            default -> throw new IllegalArgumentException("Invalid direction");
         }
+
+        if (map.isOnMap(moveToX, moveToY)) {
+            checkFinish(moveToX, moveToY, map);
+            map.leaveTheField(x, y);
+            map.enterTheField(moveToX, moveToY);
+        }
+
+        x = moveToX;
+        y = moveToY;
     }
 
     private void checkFinish(int x, int y, Map map) {
-        if (map.getField(x, y).equals("F")) {
-            game.win();
-        }
+        if (map.getField(x, y).equals(Game.FINISH)) game.win();
     }
 }

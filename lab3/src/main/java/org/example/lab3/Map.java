@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class Map {
     private final int width, height;
+    private final String[][] fields;
     private final int[] startPos;
-    private int[] finishPos;
-    private String[][] fields;
+    private final int[] finishPos;
 
     public Map(int width, int height) {
         this.width = width;
@@ -21,16 +21,16 @@ public class Map {
 
         this.startPos = drawPositionOnEdge();
 
+        int[] finishPos;
+
         do {
-            this.finishPos = drawPositionOnEdge();
-        } while (this.startPos[0] == this.finishPos[0] && this.startPos[1] == this.finishPos[1]);
+            finishPos = drawPositionOnEdge();
+        } while (this.startPos[0] == finishPos[0] && this.startPos[1] == finishPos[1]);
+
+        this.finishPos = finishPos;
 
         fields[this.startPos[0]][this.startPos[1]] = Game.START + Game.PLAYER;
         fields[this.finishPos[0]][this.finishPos[1]] = Game.FINISH;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public int[] getStartPos() {
@@ -58,11 +58,15 @@ public class Map {
         }
     }
 
-    public void setPlayer(int x, int y) {
+    public void enterTheField(int x, int y) {
         setField(x, y, Game.PLAYER);
     }
 
-    public int[] drawPositionOnEdge() {
+    public boolean isOnMap(int x, int y) {
+        return x > -1 && x < height && y > -1 && y < width;
+    }
+
+    private int[] drawPositionOnEdge() {
         Random rand = new Random();
         int x = 0, y = 0;
         int edge = rand.nextInt(4); // 0 - top, 1 - bottom, 2 - left, 3 - right
@@ -85,10 +89,6 @@ public class Map {
         }
 
         return new int[]{x, y};
-    }
-    
-    public boolean isOnMap(int x, int y) {
-        return x >= 0 && x <= height - 1 && y >= 0 && y <= width - 1;
     }
 
     public void display() {
