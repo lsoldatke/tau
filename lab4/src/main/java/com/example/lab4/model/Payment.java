@@ -1,0 +1,17 @@
+package com.example.lab4.model;
+
+import com.example.lab4.enums.PaymentStatus;
+import jakarta.persistence.*;
+
+@Entity
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Double amount;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+}
