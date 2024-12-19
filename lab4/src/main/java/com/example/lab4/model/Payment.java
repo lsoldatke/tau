@@ -14,8 +14,14 @@ public class Payment {
     private Long id;
     private Double amount;
     @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
+    private PaymentStatus status = PaymentStatus.PENDING;
     private Long orderId;
-    
-    public Payment() {}
+
+    public Payment() {
+    }
+
+    public Payment(Double amount, Long orderId) {
+        this.amount = amount;
+        this.orderId = orderId;
+    }
 }
