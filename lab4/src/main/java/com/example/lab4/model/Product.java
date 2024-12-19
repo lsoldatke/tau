@@ -14,7 +14,4 @@ public class Product {
     private String name;
     private Double price;
     private int quantity;
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
 }

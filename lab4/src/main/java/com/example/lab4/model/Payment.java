@@ -15,7 +15,7 @@ public class Payment {
     private Double amount;
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    private Long orderId;
+    
+    public Payment() {}
 }
