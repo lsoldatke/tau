@@ -5,7 +5,6 @@ import com.example.lab4.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class InventoryService {
@@ -22,5 +21,10 @@ public class InventoryService {
     public int checkAvailability(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("No such product"));
         return product.getQuantity();
+    }
+
+    public void setQuantity(Long productId, int quantity) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("No such product"));
+        product.setQuantity(quantity);
     }
 }

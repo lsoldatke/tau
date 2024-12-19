@@ -1,7 +1,7 @@
 package com.example.lab4.service;
 
+import com.example.lab4.enums.PaymentStatus;
 import com.example.lab4.model.Payment;
-import com.example.lab4.repository.OrderRepository;
 import com.example.lab4.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,15 @@ public class PaymentService {
     public Payment processPayment(Payment payment) {
         try {
             if (payment.getAmount() <= 0) {
+                payment.setStatus(PaymentStatus.REJECTED);
+                paymentRepository.save(payment);
+
                 throw new IllegalArgumentException("Payment cannot be processed - negative amount not allowed");
             }
         } catch (IllegalArgumentException e) {
             throw e;
         }
-        
+
         return paymentRepository.save(payment);
     }
 }

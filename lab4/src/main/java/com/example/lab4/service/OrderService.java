@@ -27,17 +27,18 @@ public class OrderService {
             Order savedOrder = orderRepository.save(order);
             Product orderedProduct = inventoryService.getById(savedOrder.getProductId());
             int productAvailability = inventoryService.checkAvailability(orderedProduct.getId());
-            
+
             if (productAvailability < 0) {
                 savedOrder.setStatus(OrderStatus.CANCELED);
                 return orderRepository.save(savedOrder);
             }
 
             savedOrder.setStatus(OrderStatus.PLACED);
-            
+
             Payment payment = paymentService.processPayment(new Payment(orderedProduct.getPrice(), savedOrder.getId()));
             if (payment.getStatus() == PaymentStatus.APPROVED) savedOrder.setStatus(OrderStatus.PAID);
-            
+
+            inventoryService.setQuantity(savedOrder.getProductId(), productAvailability - 1);
             notificationService.sendNotification(savedOrder.getCustomerId(), "Your order with ID: " + savedOrder.getId() + " has been placed successfully.");
 
             return orderRepository.save(savedOrder);
