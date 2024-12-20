@@ -2,7 +2,6 @@ package com.example.lab4.service;
 
 import com.example.lab4.model.Product;
 import com.example.lab4.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -11,7 +10,6 @@ import java.util.NoSuchElementException;
 public class InventoryService {
     private final ProductRepository productRepository;
 
-    @Autowired
     public InventoryService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }

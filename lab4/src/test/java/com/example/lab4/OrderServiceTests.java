@@ -4,7 +4,7 @@ import com.example.lab4.enums.OrderStatus;
 import com.example.lab4.enums.PaymentStatus;
 import com.example.lab4.model.Order;
 import com.example.lab4.model.Payment;
-import com.example.lab4.repository.PaymentRepository;
+import com.example.lab4.repository.OrderRepository;
 import com.example.lab4.service.OrderService;
 import com.example.lab4.service.PaymentService;
 import org.junit.jupiter.api.Test;
@@ -18,10 +18,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTests {
-    @InjectMocks
-    private OrderService orderService;
+    @Mock
+    private OrderRepository orderRepository;
+
     @Mock
     private PaymentService paymentService;
+
+    @InjectMocks
+    private OrderService orderService;
 
     @Test
     public void successfullyCreateOrder() {

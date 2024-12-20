@@ -4,6 +4,7 @@ import com.example.lab4.enums.OrderStatus;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "order_data")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

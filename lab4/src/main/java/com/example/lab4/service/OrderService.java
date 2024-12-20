@@ -6,7 +6,6 @@ import com.example.lab4.model.Order;
 import com.example.lab4.model.Payment;
 import com.example.lab4.model.Product;
 import com.example.lab4.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +15,6 @@ public class OrderService {
     private final InventoryService inventoryService;
     private final NotificationService notificationService;
 
-    @Autowired
     public OrderService(OrderRepository orderRepository, PaymentService paymentService, InventoryService inventoryService, NotificationService notificationService) {
         this.orderRepository = orderRepository;
         this.paymentService = paymentService;
