@@ -5,12 +5,18 @@ import com.example.lab4.model.Payment;
 import com.example.lab4.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class PaymentService {
     private final PaymentRepository paymentRepository;
 
     public PaymentService(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
+    }
+
+    public Payment getById(Long id) {
+        return paymentRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No payment with given ID"));
     }
 
     public Payment processPayment(Payment payment) {

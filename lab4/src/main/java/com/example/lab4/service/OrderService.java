@@ -28,7 +28,7 @@ public class OrderService {
             Product orderedProduct = inventoryService.getById(savedOrder.getProductId());
             int productAvailability = inventoryService.checkAvailability(orderedProduct.getId());
 
-            if (productAvailability < 0) {
+            if (productAvailability < savedOrder.getQuantity()) {
                 savedOrder.setStatus(OrderStatus.CANCELED);
                 return orderRepository.save(savedOrder);
             }
@@ -36,10 +36,12 @@ public class OrderService {
             savedOrder.setStatus(OrderStatus.PLACED);
 
             Payment payment = paymentService.processPayment(new Payment(orderedProduct.getPrice(), savedOrder.getId()));
+            savedOrder.setPaymentId(payment.getId());
+
             if (payment.getStatus() == PaymentStatus.APPROVED) savedOrder.setStatus(OrderStatus.PAID);
 
-            inventoryService.setQuantity(savedOrder.getProductId(), productAvailability - 1);
-            notificationService.sendNotification(savedOrder.getCustomerId(), "Your order with ID: " + savedOrder.getId() + " has been placed successfully.");
+            inventoryService.setQuantity(savedOrder.getProductId(), productAvailability - savedOrder.getQuantity());
+            notificationService.sendNotification("Your order with ID: " + savedOrder.getId() + " has been placed successfully.");
 
             return orderRepository.save(savedOrder);
         } catch (IllegalArgumentException e) {

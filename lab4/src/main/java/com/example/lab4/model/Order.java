@@ -14,14 +14,15 @@ public class Order {
     private Long id;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
-    private Long customerId;
+    private Long paymentId;
     private Long productId;
+    private int quantity;
 
     public Order() {
     }
 
-    public Order(Long customerId, Long productId) {
-        this.customerId = customerId;
+    public Order(Long productId, int quantity) {
         this.productId = productId;
+        this.quantity = quantity;
     }
 }
