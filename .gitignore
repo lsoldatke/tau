@@ -104,3 +104,6 @@ fabric.properties
 # Entire .idea and target directories
 .idea/
 target/
+
+### VS Code ###
+.vscode/
