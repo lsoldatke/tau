@@ -1,12 +1,11 @@
 package com.example.lab5.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.example.lab5.model.User;
 import com.example.lab5.repository.UserRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -38,7 +37,7 @@ public class UserService {
 
         return userRepository.save(user);
     }
-    
+
     public User add(User user) {
         return userRepository.save(user);
     }
